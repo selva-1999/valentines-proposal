@@ -1,0 +1,302 @@
+/* =====================================================
+   Be My Valentine — Pixel RPG Quest
+   style.css
+   ===================================================== */
+
+:root{
+  --ink:      #2b2136;   /* near-black plum, all outlines & text */
+  --panel:    #fdf3dc;   /* warm parchment textbox */
+  --panel-2:  #f6e3b8;   /* panel inner tint */
+  --sky-top:  #ffd9a0;   /* dawn peach */
+  --sky-mid:  #ffb1c4;   /* pink */
+  --sky-bot:  #b7a6ff;   /* lavender */
+  --grass:    #7bc86c;
+  --grass-dk: #5aa34e;
+  --soil:     #7a5230;
+  --soil-dk:  #5f3f24;
+  --heart:    #ff5470;
+  --coin:     #ffcf3d;
+  --blue:     #4d9be6;
+  --green-hp: #58d68d;
+  --red-hp:   #ff5470;
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  margin: 0; padding: 0;
+  min-height: 100%;
+  font-family: 'VT323', monospace;
+  color: var(--ink);
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+}
+
+body{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 14px 120px;
+  position: relative;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 46%, var(--sky-bot) 100%);
+  background-attachment: fixed;
+}
+
+/* ---------------- SKY DECOR ---------------- */
+.sky-layer{
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+}
+/* blocky pixel sun */
+.sun{
+  position: absolute; top: 7vh; right: 9vw;
+  width: 72px; height: 72px;
+  background: #fff2c2;
+  box-shadow:
+    -12px 0 0 #fff2c2, 12px 0 0 #fff2c2,
+    0 -12px 0 #fff2c2, 0 12px 0 #fff2c2,
+    0 0 0 6px rgba(255,207,61,0.35),
+    0 0 40px 18px rgba(255,207,61,0.45);
+}
+.cloud{
+  position: absolute;
+  animation: drift linear infinite;
+  will-change: transform;
+}
+@keyframes drift{
+  from{ transform: translateX(-30vw); }
+  to{   transform: translateX(120vw); }
+}
+
+/* rising pixel hearts */
+.ambient{ position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.ambient .fh{
+  position: absolute; bottom: -8%;
+  width: 18px; height: 16px;
+  background-repeat: no-repeat; background-size: contain;
+  animation: rise linear infinite;
+  will-change: transform; opacity: .85;
+}
+@keyframes rise{
+  0%{ transform: translateY(0) rotate(0deg); opacity: 0; }
+  12%{ opacity: .85; }
+  88%{ opacity: .75; }
+  100%{ transform: translateY(-118vh) rotate(18deg); opacity: 0; }
+}
+
+/* ---------------- GROUND ---------------- */
+.ground{
+  position: fixed; left: 0; right: 0; bottom: 0; height: 96px; z-index: 1;
+  pointer-events: none;
+}
+.ground .grass{
+  position: absolute; left: 0; right: 0; top: 0; height: 40px;
+  background: var(--grass);
+  box-shadow: inset 0 -6px 0 var(--grass-dk);
+}
+.ground .grass::before{
+  content:""; position:absolute; left:0; right:0; top:-10px; height:10px;
+  background-image:
+    repeating-linear-gradient(90deg, var(--grass) 0 10px, transparent 10px 20px);
+}
+.ground .soil{
+  position: absolute; left: 0; right: 0; top: 40px; bottom: 0;
+  background: var(--soil);
+  box-shadow: inset 0 8px 0 var(--soil-dk);
+  background-image: radial-gradient(var(--soil-dk) 12%, transparent 13%);
+  background-size: 24px 24px; background-position: 6px 10px;
+}
+
+/* ---------------- STAGE + CARD ---------------- */
+.stage{ position: relative; z-index: 5; width: 100%; display: flex; justify-content: center; }
+
+.box{
+  width: 100%; max-width: 580px;
+  background: var(--panel);
+  color: var(--ink);
+  border: 4px solid var(--ink);
+  box-shadow:
+    0 0 0 4px var(--panel),
+    0 0 0 8px var(--ink),
+    10px 12px 0 rgba(43,33,54,.28);
+  padding: clamp(18px, 4.5vw, 32px);
+  text-align: center;
+  position: relative;
+}
+.box::before{
+  /* inner hairline frame, classic RPG box */
+  content:""; position:absolute; inset:6px;
+  border: 2px solid var(--panel-2);
+  pointer-events:none;
+}
+
+.hidden{ display: none !important; }
+
+.quest-tag{
+  display:inline-block;
+  background: var(--ink); color: var(--coin);
+  font-family:'Press Start 2P', monospace;
+  font-size: clamp(.5rem, 2.1vw, .62rem);
+  padding: 8px 12px; margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+h1.title{
+  font-family:'Press Start 2P', monospace;
+  font-size: clamp(1rem, 4.4vw, 1.55rem);
+  line-height: 1.5;
+  color: var(--heart);
+  text-shadow: 3px 3px 0 var(--ink);
+  margin: 6px 0 4px;
+}
+.subtitle{
+  font-size: clamp(1.05rem, 3.4vw, 1.35rem);
+  color: var(--ink); opacity:.85;
+  margin: 4px 0 18px; letter-spacing: .5px;
+}
+
+/* enemy hp block */
+.enemy{
+  display:flex; align-items:center; gap:10px; justify-content:center;
+  flex-wrap: wrap;
+  margin: 6px 0 14px;
+}
+.enemy .name{
+  font-family:'Press Start 2P', monospace;
+  font-size: clamp(.5rem, 2.2vw, .62rem);
+  color: var(--ink);
+}
+.hp-track{
+  width: 150px; height: 16px;
+  background: #e9d9ae;
+  border: 3px solid var(--ink);
+  padding: 2px;
+}
+.hp-fill{
+  height: 100%; width: 100%;
+  background: var(--green-hp);
+  transition: width .3s steps(6), background .3s;
+}
+
+.dialogue{
+  background: var(--panel-2);
+  border: 3px solid var(--ink);
+  padding: 12px 14px;
+  font-size: clamp(1.05rem, 3.6vw, 1.4rem);
+  line-height: 1.35;
+  text-align: left;
+  margin: 6px 0 20px;
+  min-height: 3.4em;
+  position: relative;
+}
+.dialogue .cursor{
+  position:absolute; right:10px; bottom:8px;
+  color: var(--heart); animation: blink 1s steps(1) infinite;
+}
+@keyframes blink{ 50%{ opacity: 0; } }
+
+.arena{
+  position: relative;
+  display:flex; align-items:center; justify-content:center; gap:16px;
+  min-height: clamp(150px, 28vw, 200px);
+  width: 100%; overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.btn{
+  font-family:'Press Start 2P', monospace;
+  font-size: clamp(.62rem, 2.6vw, .8rem);
+  padding: 14px 20px;
+  border: 3px solid var(--ink);
+  cursor: pointer;
+  color: var(--ink);
+  transition: transform .18s steps(3), top .18s steps(3), left .18s steps(3), box-shadow .1s;
+  user-select: none;
+}
+.btn:active{ transform: translate(3px,3px); box-shadow: 2px 2px 0 var(--ink) !important; }
+.btn:focus-visible{ outline: 4px dashed var(--blue); outline-offset: 4px; }
+
+.btn.yes{
+  background: var(--heart); color: #fff;
+  box-shadow: 5px 5px 0 var(--ink);
+}
+.btn.no{
+  background: #dfe6ee;
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.coins{
+  font-size: clamp(1.05rem, 3.4vw, 1.3rem);
+  letter-spacing: .5px; margin: 4px 0;
+}
+.coins b{ color: #b8860b; }
+
+.link-btn{
+  background: none; border: none;
+  font-family:'VT323', monospace;
+  font-size: clamp(1rem, 3.2vw, 1.2rem);
+  color: var(--ink); opacity:.7;
+  text-decoration: underline; cursor: pointer; padding: 6px;
+}
+.link-btn:hover{ opacity: 1; }
+.link-btn:focus-visible{ outline: 3px solid var(--blue); outline-offset: 2px; }
+
+.credit{
+  margin-top: 16px; font-size: clamp(.95rem, 3vw, 1.1rem);
+  opacity:.6; letter-spacing:.4px;
+}
+
+/* ---------- victory ---------- */
+.victory h1.title{ color: var(--coin); text-shadow: 3px 3px 0 var(--ink); }
+.exp-label{
+  display:flex; justify-content:space-between;
+  font-family:'Press Start 2P', monospace;
+  font-size: clamp(.5rem, 2.1vw, .6rem);
+  margin: 18px 0 6px;
+}
+.exp-track{
+  width:100%; height: 18px; background:#e9d9ae;
+  border: 3px solid var(--ink); padding: 2px;
+}
+.exp-fill{
+  height:100%; width:0%;
+  background: repeating-linear-gradient(90deg, var(--coin) 0 8px, #ffe27a 8px 16px);
+  transition: width 2s steps(20);
+}
+.epilogue{
+  font-size: clamp(1.1rem, 3.6vw, 1.4rem);
+  line-height: 1.4; margin: 20px 0 22px;
+  background: var(--panel-2); border:3px solid var(--ink);
+  padding: 12px 14px; text-align:left;
+}
+.again-btn, .btn.small{
+  font-family:'Press Start 2P', monospace;
+  font-size: clamp(.55rem, 2.4vw, .68rem);
+  padding: 12px 16px; border:3px solid var(--ink);
+  background:#dfe6ee; color:var(--ink);
+  box-shadow: 4px 4px 0 var(--ink); cursor:pointer;
+}
+.again-btn:active, .btn.small:active{ transform: translate(2px,2px); box-shadow:2px 2px 0 var(--ink); }
+.again-btn:focus-visible, .btn.small:focus-visible{ outline:4px dashed var(--blue); outline-offset:3px; }
+
+/* ---------- confetti ---------- */
+.confetti-layer{ position: fixed; inset: 0; z-index: 80; pointer-events:none; overflow:hidden; }
+.conf{
+  position:absolute; top:-6%;
+  width:16px; height:14px; background-repeat:no-repeat; background-size:contain;
+  animation: fall linear forwards;
+}
+@keyframes fall{
+  to{ transform: translateY(112vh) rotate(200deg); opacity:.9; }
+}
+
+/* ---------- accessibility ---------- */
+@media (prefers-reduced-motion: reduce){
+  .cloud, .ambient .fh, .conf{ animation: none; }
+  .ambient .fh{ display:none; }
+  .btn{ transition: none; }
+  .conf{ opacity:.85; }
+  .exp-fill, .hp-fill{ transition: none; }
+}

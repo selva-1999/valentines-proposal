@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>♥ QUEST: Be My Valentine ♥</title>
+  <meta name="description" content="A wild question appeared! Accept the quest?" />
+
+  <!-- Nice link previews when shared -->
+  <meta property="og:title" content="♥ QUEST: Be My Valentine ♥" />
+  <meta property="og:description" content="A wild question appeared! Accept the quest?" />
+  <meta property="og:type" content="website" />
+
+  <!-- Pixel-heart favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='6' shape-rendering='crispEdges' viewBox='0 0 7 6'%3E%3Cpath fill='%23ff5470' d='M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- sky -->
+  <div class="sky-layer" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="cloud" id="cloud1"></div>
+    <div class="cloud" id="cloud2"></div>
+    <div class="cloud" id="cloud3"></div>
+  </div>
+
+  <div class="ambient" id="ambient" aria-hidden="true"></div>
+
+  <!-- ground -->
+  <div class="ground" aria-hidden="true">
+    <div class="grass"></div>
+    <div class="soil"></div>
+  </div>
+
+  <main class="stage">
+
+    <!-- ============ QUEST SCREEN ============ -->
+    <section id="questScreen" class="box" aria-live="polite">
+      <span class="quest-tag">★ NEW QUEST ★</span>
+      <h1 class="title">BE MY<br>VALENTINE</h1>
+      <p class="subtitle">A wild question appeared!</p>
+
+      <div class="enemy">
+        <span class="name">✖ No-Slime</span>
+        <div class="hp-track"><div class="hp-fill" id="hpFill"></div></div>
+      </div>
+
+      <div class="dialogue" id="dialogue">
+        You approach the question with your whole heart equipped. What will you do?
+        <span class="cursor">▶</span>
+      </div>
+
+      <div class="arena" id="arena">
+        <button class="btn yes" id="yesBtn">▶ YES</button>
+        <button class="btn no" id="noBtn">NO</button>
+      </div>
+
+      <p class="coins">💛 Hearts collected: <b id="coinCount">0</b></p>
+
+      <button class="link-btn" id="skipBtn">let me just answer normally →</button>
+
+      <p class="credit">— a quest handcrafted in HTML with ♥ —</p>
+    </section>
+
+    <!-- ============ VICTORY SCREEN ============ -->
+    <section id="victoryScreen" class="box victory hidden" aria-live="polite">
+      <span class="quest-tag">✔ QUEST COMPLETE</span>
+      <h1 class="title">YOU WIN!</h1>
+      <p class="subtitle">You are now Player 2 in my life.</p>
+
+      <div class="exp-label"><span>EXP</span><span id="expText">+9999 LOVE</span></div>
+      <div class="exp-track"><div class="exp-fill" id="expFill"></div></div>
+
+      <p class="epilogue" id="epilogueText"></p>
+
+      <button class="again-btn" id="againBtn">↺ REPLAY QUEST</button>
+    </section>
+
+    <!-- ============ SOFT DECLINE SCREEN ============ -->
+    <section id="declineScreen" class="box hidden" aria-live="polite">
+      <span class="quest-tag">◦ QUEST PAUSED</span>
+      <h1 class="title" style="font-size:clamp(.9rem,3.8vw,1.3rem)">NO WORRIES</h1>
+      <div class="epilogue">
+        Totally okay — thanks for playing along. No pressure, no hard feelings.
+        The quest log stays open if you ever feel like picking it back up. 💛
+      </div>
+      <button class="btn small" id="reconsiderBtn">actually… ▶ YES</button>
+    </section>
+
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
